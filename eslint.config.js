@@ -1,4 +1,5 @@
 import js from '@eslint/js'
+import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
@@ -13,9 +14,17 @@ export default defineConfig([
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
     ],
+    plugins: {
+      'simple-import-sort': simpleImportSort,
+    },
     languageOptions: {
       globals: globals.browser,
       parserOptions: { ecmaFeatures: { jsx: true } },
+    },
+    rules: {
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
+      'semi':[1, 'always']
     },
   },
 ])
