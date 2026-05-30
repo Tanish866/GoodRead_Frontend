@@ -19,12 +19,17 @@ export default defineConfig([
     },
     languageOptions: {
       globals: globals.browser,
-      parserOptions: { ecmaFeatures: { jsx: true } },
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+      },
     },
     rules: {
+      // Import sorting
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
-      'semi':[1, 'always']
+
+      // Semicolons
+      semi: ['error', 'always'],
     },
   },
 ])
