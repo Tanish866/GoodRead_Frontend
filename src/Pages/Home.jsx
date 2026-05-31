@@ -1,4 +1,5 @@
 import logo from "Assets/Images/logo.webp";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
@@ -14,11 +15,11 @@ export default function Home() {
 
         <div className="mt-10 flex justify-center gap-4 md:absolute md:right-10 md:top-72 md:mt-0">
           <button className="rounded-md bg-purple-700 px-8 py-3 cursor-pointer text-lg font-bold uppercase text-white transition hover:bg-purple-800">
-            Register
+            <Link to="/Signup">Register</Link>
           </button>
 
           <button className="rounded-md bg-yellow-400 px-8 py-3 cursor-pointer text-lg font-bold uppercase text-black transition hover:bg-yellow-500">
-            Login
+            <Link to="/Login">Login</Link>
           </button>
         </div>
 
