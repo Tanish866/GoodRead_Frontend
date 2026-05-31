@@ -4,9 +4,9 @@ import MainRoutes from './Routes/MainRoutes';
 function App() {
 
   return (
-    <>
+    <div>
       <MainRoutes/>
-    </>
+    </div>
   )
 }
 
