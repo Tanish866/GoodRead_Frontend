@@ -48,14 +48,6 @@ export default function Navbar() {
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-400 text-lg font-bold text-[#181b24]">
                 {userInitial}
               </div>
-
-              {/* <span className="text-xl text-white">
-                {username}
-              </span> */}
-
-              {/* <span className="text-sm text-white/70">
-                ▼
-              </span> */}
             </div>
 
             <ul
