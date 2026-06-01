@@ -1,9 +1,47 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { signup } from "Redux/Slices/AuthSlice";
 
 export default function Signup() {
+  const dispatch = useDispatch();
+  const navigator = useNavigate();
+
+
+  const [signupDetails, setSignupDetails] = useState({
+      email: "",
+      password: "",
+      username: ""
+  });
+
+  async function onFormSubmit(e){
+      e.preventDefault();
+      const response = await dispatch(signup(signupDetails));
+      console.log(response);
+      if(response?.payload){
+        navigator("/Login");
+      }
+      resetForm();
+  }
+
+  function resetForm(){
+      setSignupDetails({
+        email: "",
+        password: "",
+        username: ""
+      });
+    }
+
+  function handelFormChange(e){
+      const {name, value} = e.target;
+      setSignupDetails({
+          ...signupDetails,
+          [name]: value
+      });
+  }
+
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#181b24] px-4">
-      {/* Background glow */}
       <div className="absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-emerald-400/20 blur-[100px]" />
       <div className="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-purple-500/20 blur-[120px]" />
 
@@ -22,22 +60,34 @@ export default function Signup() {
           </button>
         </div>
 
-        <form className="mt-10 space-y-5" autoComplete="off">
+        <form onSubmit={onFormSubmit} className="mt-10 space-y-5" autoComplete="off">
           <input
+            autoComplete="off"
             type="text"
             placeholder="Username"
-            className="w-full rounded-xl border border-white/10 bg-[#2d3548] px-6 py-4 text-lg font-medium text-gray-900 outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-emerald-400"
+            name="username"
+            value={signupDetails.username}
+            onChange={handelFormChange}
+            className="w-full rounded-xl border border-white/10 bg-[#2d3548] px-6 py-4 text-lg font-medium text-white outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-emerald-400"
           />
 
           <input
+            autoComplete="off"
             type="email"
             placeholder="Email"
+            name="email"
+            value={signupDetails.email}
+            onChange={handelFormChange}
             className="w-full rounded-xl border border-white/10 bg-[#2d3548] px-6 py-4 text-lg font-medium text-white outline-none placeholder:text-white/60 focus:ring-2 focus:ring-emerald-400"
           />
 
           <input
+            autoComplete="off"
             type="password"
             placeholder="Password"
+            name="password"
+            onChange={handelFormChange}
+            value={signupDetails.password}
             className="w-full rounded-xl border border-white/10 bg-[#2d3548] px-6 py-4 text-lg font-medium text-white outline-none placeholder:text-white/60 focus:ring-2 focus:ring-emerald-400"
           />
 

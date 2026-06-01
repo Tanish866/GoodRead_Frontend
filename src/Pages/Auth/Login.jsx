@@ -1,6 +1,41 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { signin } from "Redux/Slices/AuthSlice";
 
 export default function Login() {
+    const dispatch = useDispatch();
+    const navigator = useNavigate();
+
+    const [loginDetails, setLoginDetails] = useState({
+        email: "",
+        password: ""
+    });
+
+    async function onFormSubmit(e){
+        e.preventDefault();
+        const response = await dispatch(signin(loginDetails));
+        if(response?.payload){
+          navigator("/");
+        }
+        resetForm();
+    }
+    
+    function resetForm(){
+      setLoginDetails({
+        email: "",
+        password: ""
+      });
+    }
+
+    function handelFormChange(e){
+        const {name, value} = e.target;
+        setLoginDetails({
+            ...loginDetails,
+            [name]: value
+        });
+    }
+
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#181b24] px-4">
       <div className="absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-emerald-400/20 blur-[100px]" />
@@ -21,16 +56,24 @@ export default function Login() {
           </button>
         </div>
 
-        <form className="mt-10 space-y-5">
+        <form onSubmit={onFormSubmit} className="mt-10 space-y-5">
           <input
+            autoComplete="off"
             type="email"
             placeholder="Email"
+            onChange={handelFormChange}
+            name="email"
+            value={loginDetails.email}
             className="w-full rounded-xl border border-white/10 bg-[#2d3548] px-6 py-4 text-lg font-medium text-white outline-none placeholder:text-white/60 focus:ring-2 focus:ring-emerald-400"
           />
 
           <input
             type="password"
+            autoComplete="off"
             placeholder="Password"
+            onChange={handelFormChange}
+            name="password"
+            value={loginDetails.password}
             className="w-full rounded-xl border border-white/10 bg-[#2d3548] px-6 py-4 text-lg font-medium text-white outline-none placeholder:text-white/60 focus:ring-2 focus:ring-emerald-400"
           />
 
