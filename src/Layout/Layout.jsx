@@ -6,9 +6,9 @@ export default function Layout({ children }) {
     <div className="flex min-h-screen flex-col bg-[#181b24]">
       <Navbar />
 
-        <main className="flex justify-center flex-1">
-          {children}
-        </main>
+      <div className="mx-auto w-9/12 flex-1">
+        {children}
+      </div>
 
       <Footer />
     </div>

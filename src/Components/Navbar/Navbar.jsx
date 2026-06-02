@@ -18,21 +18,21 @@ export default function Navbar() {
   }
 
   return (
-    <div className="navbar h-25 bg-[#1f2433] px-10 shadow-md">
+    <div className="navbar min-h-20 bg-[#1f2433] px-4 shadow-md sm:px-6 lg:px-10">
       <div className="flex-1">
         <Link
           to="/dashboard"
-          className="rounded-lg bg-[#181b24] px-4 py-3 text-2xl font-bold text-white"
+          className="rounded-lg bg-[#181b24] px-3 py-2 text-lg font-bold text-white sm:px-4 sm:py-3 sm:text-2xl"
         >
           📚 BookShelf
         </Link>
       </div>
 
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-3 sm:gap-6">
         {authState.isLoggedin && (
           <Link
             to="/shelves"
-            className="text-xl text-white/80 transition hover:text-white"
+            className="text-base text-white/80 transition hover:text-white sm:text-xl"
           >
             Shelves
           </Link>
@@ -43,11 +43,19 @@ export default function Navbar() {
             <div
               tabIndex={0}
               role="button"
-              className="flex cursor-pointer items-center gap-3"
+              className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1 hover:bg-white/5 sm:gap-3"
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-400 text-lg font-bold text-[#181b24]">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-400 text-base font-bold text-[#181b24] sm:h-10 sm:w-10 sm:text-lg">
                 {userInitial}
               </div>
+
+              <span className="hidden text-lg text-white sm:block">
+                {username}
+              </span>
+
+              <span className="text-xs text-white/70 sm:text-sm">
+                ▼
+              </span>
             </div>
 
             <ul
@@ -55,11 +63,7 @@ export default function Navbar() {
               className="dropdown-content menu mt-3 w-40 rounded-box bg-base-200 p-2 shadow-lg"
             >
               <li>
-                <Link
-                  onClick={onLogout}
-                  to="/login"
-                  className="text-lg"
-                >
+                <Link onClick={onLogout} to="/login" className="text-lg">
                   Logout
                 </Link>
               </li>
@@ -70,7 +74,7 @@ export default function Navbar() {
             <div
               tabIndex={0}
               role="button"
-              className="cursor-pointer text-xl text-white/80 transition hover:text-white"
+              className="cursor-pointer text-base text-white/80 transition hover:text-white sm:text-xl"
             >
               Options
             </div>
