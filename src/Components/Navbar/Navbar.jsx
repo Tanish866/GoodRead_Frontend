@@ -31,10 +31,10 @@ export default function Navbar() {
       <div className="flex items-center gap-3 sm:gap-6">
         {authState.isLoggedin && (
           <Link
-            to="/shelves"
+            to="/Shelf"
             className="text-base text-white/80 transition hover:text-white sm:text-xl"
           >
-            Shelves
+            Shelfs
           </Link>
         )}
 
