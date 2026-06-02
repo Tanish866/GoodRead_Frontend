@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "Redux/Slices/AuthSlice";
+import { clearShelf } from "Redux/Slices/ShelfSlice";
 
 export default function Navbar() {
   const authState = useSelector((state) => state.auth);
@@ -15,6 +16,7 @@ export default function Navbar() {
 
   function onLogout() {
     dispatch(logout());
+    dispatch(clearShelf());
   }
 
   return (

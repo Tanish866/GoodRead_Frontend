@@ -1,21 +1,20 @@
-import bookImage from "Assets/Images/images.jpg"
+import bookImage from "Assets/Images/images.jpg";
 import Layout from "Layout/Layout";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllBookShelves, addBookToShelf } from "Redux/Slices/ShelfSlice";
+import { getAllBookShelves, addBookToShelf, createShelf } from "Redux/Slices/ShelfSlice";
 
 export default function Shelves() {
   const dispatch = useDispatch();
-  
   const shelfList = useSelector((state) => state.shelf.shelfList);
 
   const [selectedShelfId, setSelectedShelfId] = useState(null);
   const [bookDetails, setBookDetails] = useState({ title: "", author: "" });
+  const [showCreateShelf, setShowCreateShelf] = useState(false);
+  const [newShelfName, setNewShelfName] = useState("");
 
   useEffect(() => {
-    if (shelfList.length === 0) {
-      dispatch(getAllBookShelves());
-    }
+    dispatch(getAllBookShelves()); 
   }, []);
 
   function handleInputChange(e) {
@@ -28,7 +27,7 @@ export default function Shelves() {
     if (!bookDetails.title || !bookDetails.author) return;
 
     await dispatch(addBookToShelf({
-      shelfName: selectedShelfId, 
+      shelfName: selectedShelfId,
       bookId: bookDetails.title,
     }));
 
@@ -36,10 +35,57 @@ export default function Shelves() {
     setSelectedShelfId(null);
   }
 
+  async function handleCreateShelf(e) {
+    e.preventDefault();
+    if (!newShelfName.trim()) return;
+
+    await dispatch(createShelf({ name: newShelfName.trim() }));
+
+    setNewShelfName("");
+    setShowCreateShelf(false);
+  }
+
   return (
     <Layout>
       <main className="min-h-full bg-[#181b24] px-6 py-10 text-white">
-        <h1 className="mb-8 text-4xl font-bold">My Shelves</h1>
+
+        <div className="mb-8 flex items-center justify-between">
+          <h1 className="text-4xl font-bold">My Shelves</h1>
+          <button
+            onClick={() => setShowCreateShelf((prev) => !prev)}
+            className="btn btn-primary"
+          >
+            + New Shelf
+          </button>
+        </div>
+
+        {showCreateShelf && (
+          <form
+            onSubmit={handleCreateShelf}
+            className="mb-8 flex gap-4 rounded-xl border border-white/10 bg-white/5 p-4"
+          >
+            <input
+              type="text"
+              value={newShelfName}
+              onChange={(e) => setNewShelfName(e.target.value)}
+              placeholder="Shelf name (e.g. Favourites)"
+              className="input input-bordered flex-1"
+            />
+            <button type="submit" className="btn btn-success">
+              Create
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setShowCreateShelf(false);
+                setNewShelfName("");
+              }}
+              className="btn btn-ghost"
+            >
+              Cancel
+            </button>
+          </form>
+        )}
 
         <div className="space-y-8">
           {shelfList.map((shelf) => (
@@ -53,10 +99,14 @@ export default function Shelves() {
                   <p className="text-white/50">{shelf.books.length} books</p>
                 </div>
                 <button
-                  onClick={() => setSelectedShelfId(shelf._id)}
+                  onClick={() =>
+                    setSelectedShelfId((prev) =>
+                      prev === shelf._id ? null : shelf._id
+                    )
+                  }
                   className="btn btn-primary"
                 >
-                  Add Book
+                  {selectedShelfId === shelf._id ? "Cancel" : "Add Book"}
                 </button>
               </div>
 
