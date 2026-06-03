@@ -3,35 +3,34 @@ import Layout from "Layout/Layout";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBookShelves, addBookToShelf, createShelf } from "Redux/Slices/ShelfSlice";
+import { getAllBooks } from "Redux/Slices/BookSlice";
 
 export default function Shelves() {
   const dispatch = useDispatch();
   const shelfList = useSelector((state) => state.shelf.shelfList);
+  const bookList = useSelector((state) => state.book.bookList);
 
   const [selectedShelfId, setSelectedShelfId] = useState(null);
-  const [bookDetails, setBookDetails] = useState({ title: "", author: "" });
+  const [selectedBookId, setSelectedBookId] = useState("");
   const [showCreateShelf, setShowCreateShelf] = useState(false);
   const [newShelfName, setNewShelfName] = useState("");
 
   useEffect(() => {
-    dispatch(getAllBookShelves()); 
+    dispatch(getAllBookShelves());
+    dispatch(getAllBooks());
   }, []);
 
-  function handleInputChange(e) {
-    const { name, value } = e.target;
-    setBookDetails((prev) => ({ ...prev, [name]: value }));
-  }
-
-  async function addBook(e) {
+  async function addBook(e, shelfName) {
     e.preventDefault();
-    if (!bookDetails.title || !bookDetails.author) return;
+    if (!selectedBookId) return;
 
     await dispatch(addBookToShelf({
-      shelfName: selectedShelfId,
-      bookId: bookDetails.title,
+      shelfName: shelfName,
+      bookId: selectedBookId,
     }));
+    await dispatch(getAllBookShelves());
 
-    setBookDetails({ title: "", author: "" });
+    setSelectedBookId("");
     setSelectedShelfId(null);
   }
 
@@ -71,15 +70,10 @@ export default function Shelves() {
               placeholder="Shelf name (e.g. Favourites)"
               className="input input-bordered flex-1"
             />
-            <button type="submit" className="btn btn-success">
-              Create
-            </button>
+            <button type="submit" className="btn btn-success">Create</button>
             <button
               type="button"
-              onClick={() => {
-                setShowCreateShelf(false);
-                setNewShelfName("");
-              }}
+              onClick={() => { setShowCreateShelf(false); setNewShelfName(""); }}
               className="btn btn-ghost"
             >
               Cancel
@@ -112,40 +106,51 @@ export default function Shelves() {
 
               {selectedShelfId === shelf._id && (
                 <form
-                  onSubmit={addBook}
-                  className="mb-6 grid gap-4 rounded-xl border border-white/10 bg-[#202637] p-4 md:grid-cols-3"
+                  onSubmit={(e) => addBook(e, shelf.name)}
+                  className="mb-6 flex gap-4 rounded-xl border border-white/10 bg-[#202637] p-4"
                 >
-                  <input
-                    type="text"
-                    name="title"
-                    value={bookDetails.title}
-                    onChange={handleInputChange}
-                    placeholder="Book title"
-                    className="input input-bordered"
-                  />
-                  <input
-                    type="text"
-                    name="author"
-                    value={bookDetails.author}
-                    onChange={handleInputChange}
-                    placeholder="Author name"
-                    className="input input-bordered"
-                  />
-                  <button className="btn btn-success">Save Book</button>
+                  <select
+                    value={selectedBookId}
+                    onChange={(e) => setSelectedBookId(e.target.value)}
+                    className="select select-bordered flex-1"
+                  >
+                    <option value="">Select a book</option>
+                    {bookList.map((book) => (
+                      <option key={book._id} value={book._id}>
+                        {book.title} — {book.author?.name}
+                      </option>
+                    ))}
+                  </select>
+                  <button type="submit" className="btn btn-success">
+                    Save Book
+                  </button>
                 </form>
               )}
 
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 {shelf.books.length > 0 ? (
                   shelf.books.map((book) => (
-                    <div key={book._id} className="rounded-xl bg-[#202637] p-4">
+                    <div
+                      key={book._id}
+                      className="flex flex-col rounded-xl bg-[#202637] overflow-hidden h-72"
+                    >
                       <img
                         src={bookImage}
                         alt={book.title}
-                        className="h-56 w-full rounded-lg object-cover"
+                        className="w-full object-cover flex-shrink-0"
+                        style={{ height: '160px' }}
                       />
-                      <h3 className="mt-4 text-lg font-semibold">{book.title}</h3>
-                      <p className="text-sm text-white/50">{book.author?.name}</p>
+                      <div className="p-3 flex flex-col gap-1 flex-1 min-h-0">
+                        <h3 className="text-base font-semibold leading-tight truncate">
+                          {book.title || "Unknown Title"}
+                        </h3>
+                        <p className="text-sm text-white/50 truncate">
+                          {book.author?.name || "Unknown Author"}
+                        </p>
+                        <p className="text-xs text-yellow-300">
+                          ⭐ {book.rating || "N/A"}
+                        </p>
+                      </div>
                     </div>
                   ))
                 ) : (

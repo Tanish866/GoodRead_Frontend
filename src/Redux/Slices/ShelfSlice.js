@@ -76,7 +76,7 @@ const shelfSlice = createSlice({
         builder
             .addCase(getAllBookShelves.fulfilled, (state, action) => {
                 if (action?.payload?.data?.data) {
-                    state.shelfList = action.payload.data.data.map((shelf) => ({
+                        console.log("all shelf books =>", JSON.stringify(action.payload.data.data[1].books[0], null, 2));                    state.shelfList = action.payload.data.data.map((shelf) => ({
                         ...shelf,
                         books: shelf.books.filter(
                             (book, index, self) =>
