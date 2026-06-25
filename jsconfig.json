@@ -9,7 +9,8 @@
       "Configs/*": ["./src/Configs/*"],
       "Layout/*": ["./src/Layout/*"],
       "Redux/*": ["./src/Redux/*"],
-      "Routes/*": ["./src/Routes/*"] 
+      "Routes/*": ["./src/Routes/*"],
+      "Hooks/*": ["./src/Hooks/*"]
     }
   }
 }

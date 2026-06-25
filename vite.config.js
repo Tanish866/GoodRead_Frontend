@@ -1,6 +1,7 @@
-import { defineConfig } from 'vite'
-import tailwindcss from '@tailwindcss/vite'
-import path from 'path'
+/* eslint-disable no-undef */
+import tailwindcss from '@tailwindcss/vite';
+import path from 'path';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [
@@ -16,6 +17,7 @@ export default defineConfig({
       Layout: path.resolve(__dirname, "src/Layout"),
       Redux: path.resolve(__dirname, "src/Redux"),
       Routes: path.resolve(__dirname, "src/Routes"),
+      Hooks: path.resolve(__dirname, "src/Hooks"),
     }
   },
-})
+});

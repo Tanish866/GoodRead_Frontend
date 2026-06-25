@@ -1,4 +1,3 @@
-import bookImage from "Assets/Images/images.jpg";
 import Layout from "Layout/Layout";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,9 +28,13 @@ export default function BookDescription() {
                         
                         <div className="shrink-0">
                             <img
-                                src={bookImage}
-                                alt="Book Cover"
+                                src={state.image}
+                                alt={state.title}
                                 className="h-[360px] w-[230px] object-cover shadow-2xl sm:h-[440px] sm:w-[280px] lg:h-[520px] lg:w-[330px]"
+                                onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = `https://placehold.co/330x520/1f2433/ffffff?text=${encodeURIComponent(state.title)}`;
+                                }}
                             />
                         </div>
 
@@ -44,7 +47,7 @@ export default function BookDescription() {
                                 {state.description}
                             </p>
 
-                            <p className="mt-6 text-2xl font-semibold text-yellow-300 lg:mt-10 lg:text-3xl">
+                            <p className="mt-6 text-2xl cursor-pointer font-semibold text-yellow-300 lg:mt-10 lg:text-3xl">
                                 {state.author?.name}
                             </p>
 
@@ -66,7 +69,7 @@ export default function BookDescription() {
                                 </p>
 
                                 <p className="text-white/70">
-                                    Publish Date:{" "}
+                                    Publish Date:{" A"}
                                     <span className="text-yellow-300">{state.publishDate}</span>
                                 </p>
 
@@ -81,7 +84,7 @@ export default function BookDescription() {
                                         {shelfState.shelfList.length > 0 ? (
                                             shelfState.shelfList.map((shelf) => (
                                                 <li
-                                                    key={shelf._id} 
+                                                    key={shelf._id}
                                                     onClick={() => handleAddToShelf(shelf.name)}
                                                 >
                                                     <a>{shelf.name}</a>

@@ -34,16 +34,16 @@ export const signin = createAsyncThunk("auth/signin", async (data) => {
 });
 
 const initialState = {
-    isLoggedin: localStorage.getItem('isLoggedin') || false,
+    isLoggedin: localStorage.getItem('isLoggedin') === 'true',
     token: localStorage.getItem('token') || '',
     username: localStorage.getItem('username') || ''
-}
+};
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        logout: (state) =>{
+        logout: (state) => {
             state.isLoggedin = false;
             state.token = '';
             state.username = '';
@@ -59,9 +59,9 @@ const authSlice = createSlice({
             localStorage.setItem("isLoggedin", (action?.payload?.data != undefined));
             localStorage.setItem("username", action?.payload?.data?.username);
             localStorage.setItem("token", action?.payload?.data?.token);
-        })
+        });
     }
 });
 
-export const {logout} = authSlice.actions;
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;

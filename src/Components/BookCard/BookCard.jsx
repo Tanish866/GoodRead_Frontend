@@ -1,4 +1,3 @@
-import BookImage from "Assets/Images/images.jpg";
 import { AiOutlineUser } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
@@ -13,9 +12,12 @@ export default function BookCard({ data }) {
     <div className="card my-5 bg-base-100 shadow-sm md:card-side">
       <figure className="md:w-64">
         <img
-          src={BookImage}
+          src={data.image}
           alt={data.title}
           className="h-64 w-full object-cover md:h-full"
+          onError={(e) => {
+            e.target.src = "https://via.placeholder.com/256x384?text=No+Cover";
+          }}
         />
       </figure>
 
@@ -26,7 +28,7 @@ export default function BookCard({ data }) {
 
         <div className="mt-4 flex flex-col gap-5 md:mt-18 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-col gap-3 text-base text-white sm:text-xl">
-            <div className="flex items-center gap-3 sm:gap-5">
+            <div className="flex items-center cursor-pointer gap-3 sm:gap-5">
               <AiOutlineUser />
               <span>{data.author?.name}</span>
             </div>

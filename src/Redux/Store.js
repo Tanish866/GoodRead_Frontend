@@ -7,7 +7,7 @@ export default configureStore({
     reducer: {
         auth: authSliceReducer,
         book: bookSliceReducer,
-        shelf: shelfSliceReducer
+        shelf: shelfSliceReducer,
     },
     devTools: true,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})

@@ -7,11 +7,7 @@ export default function Navbar() {
   const authState = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  const username =
-    authState?.user?.username ||
-    authState?.data?.username ||
-    "User";
-
+  const username = authState?.username || "User";
   const userInitial = username.charAt(0).toUpperCase();
 
   function onLogout() {
@@ -23,7 +19,7 @@ export default function Navbar() {
     <div className="navbar min-h-20 bg-[#1f2433] px-4 shadow-md sm:px-6 lg:px-10">
       <div className="flex-1">
         <Link
-          to="/dashboard"
+          to="/"
           className="rounded-lg bg-[#181b24] px-3 py-2 text-lg font-bold text-white sm:px-4 sm:py-3 sm:text-2xl"
         >
           📚 BookShelf
@@ -31,7 +27,14 @@ export default function Navbar() {
       </div>
 
       <div className="flex items-center gap-3 sm:gap-6">
+         <Link
+            to="/dashboard"
+            className="text-base text-white/80 transition hover:text-white sm:text-xl"
+          >
+            All Books
+          </Link>
         {authState.isLoggedin && (
+          
           <Link
             to="/Shelf"
             className="text-base text-white/80 transition hover:text-white sm:text-xl"
