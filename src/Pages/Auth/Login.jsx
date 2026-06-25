@@ -35,7 +35,7 @@ export default function Login() {
       if(state.isLoggedin){
         navigator("/Dashboard");
       }
-    }, [])
+    }, []);
 
     function handelFormChange(e){
         const {name, value} = e.target;
