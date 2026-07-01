@@ -69,7 +69,7 @@ export default function BookDescription() {
                                 </p>
 
                                 <p className="text-white/70">
-                                    Publish Date:{" A"}
+                                    Publish Date:{" "}
                                     <span className="text-yellow-300">{state.publishDate}</span>
                                 </p>
 
