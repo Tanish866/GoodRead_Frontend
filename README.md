@@ -4,7 +4,7 @@ A modern, responsive book tracking and social reading web application built with
 
 ## 🌐 Live Demo
 
-- https://book-shelf-psi-sooty.vercel.app/
+- https://book-shelf-eosin-three.vercel.app/
 
 ---
 
